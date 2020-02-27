@@ -44,7 +44,7 @@ public class BasicMovementScript : MonoBehaviour, _2DRoguelikeDef_Input.IPlayerA
 
     //fourth - use for physics specific cases
     private void FixedUpdate() {
-        //
+        //call Move with the desired frame dependant velocity
         Move(movementVector*movementData.movementForce*Time.fixedDeltaTime);
     }
 
