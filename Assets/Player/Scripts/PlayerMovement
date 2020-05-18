@@ -1,0 +1,61 @@
+using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour
+{
+    //Running/Dashing
+    public float runSpeed = 40f;
+    public float movementX;
+    
+    bool jump = false;
+    bool crouch = false;
+    public float dashSpeed = 200f;
+    public float startDashTime = 5f;
+    public float dashTime;
+    public characterController2D controller;
+
+    // Jump
+    public bool isGrounded;
+    public LayerMask groundLayers;
+
+    // Update is called once per frame
+    void Update()
+    {
+        //Dashing / walking
+        if (dashTime <= 0)
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                movementX = Input.GetAxis("Horizontal") * dashSpeed;
+                dashTime = startDashTime;
+            }
+            else
+            {
+                movementX = Input.GetAxis("Horizontal") * runSpeed;
+            }
+        }
+        else
+        {
+            dashTime -= Time.deltaTime;
+            movementX = Input.GetAxis("Horizontal") * runSpeed;
+        }
+
+        // Jumping
+        if (Input.GetButtonDown("Jump"))
+        {
+            jump = true;
+        }
+
+        //crouching
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            crouch = true;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        controller.Move(movementX * Time.fixedDeltaTime, false, jump);
+        jump = false;
+        crouch = false;
+    }
+}
