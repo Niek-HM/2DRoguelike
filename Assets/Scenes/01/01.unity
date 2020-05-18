@@ -532,7 +532,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1115555477}
   - component: {fileID: 1115555476}
-  - component: {fileID: 1115555475}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -540,19 +539,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1115555475
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1115555474}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c40fb08e53d16554aafca669802da6a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementData: {fileID: 11400000, guid: a4bca6c545e4b7749a9cb3f40d51f0b9, type: 2}
 --- !u!50 &1115555476
 Rigidbody2D:
   serializedVersion: 4
