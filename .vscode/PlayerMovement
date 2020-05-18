@@ -1,0 +1,95 @@
+using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour
+{
+    //Running
+    public float runSpeed = 40f;
+    float movementX;
+    public characterController2D controller;
+    bool jump = false;
+    
+    //Attack
+    float timeBtwAttack;
+    public float startTimeBtwAttack;
+    public float AttackRange;
+    
+    public int damage;
+    
+    public Transform attackPos;
+    public LayerMask whatIsEnemys;
+
+    // Jump
+    public bool isGrounded;
+    
+    public LayerMask groundLayers;
+    
+
+    // Other
+    Rigidbody2D rb;
+
+    public Animator anim;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //Atack
+        if(timeBtwAttack <= 0)
+        {
+            if (Input.GetKey(KeyCode.P))
+            {
+                anim.SetBool("Attacking", true);
+                Debug.Log("attacking");
+
+                Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, AttackRange, whatIsEnemys);
+                for(int i = 0; i < enemiesToDamage.Length; i++)
+                {
+                    enemiesToDamage[i].GetComponent<Enemy>().health -= damage;
+                }
+                
+                timeBtwAttack = startTimeBtwAttack;
+            }
+        }
+        else
+        {
+            timeBtwAttack -= Time.deltaTime;
+            anim.SetBool("Attacking", false);
+        }
+
+        // Walking
+        movementX = Input.GetAxis("Horizontal") * runSpeed;
+        if(movementX != 0)
+        {
+            anim.SetBool("Walking", true);
+        }
+        else
+        {
+            anim.SetBool("Walking", false);
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            jump = true;
+        }
+
+        // Jumping
+        if (Input.GetKeyDown("up") && isGrounded)
+        {
+            rb.AddForce(transform.up * 400f);
+        }
+
+        
+    }
+
+    private void FixedUpdate()
+    {
+        controller.Move(movementX * Time.fixedDeltaTime, false, jump);
+        jump = false;
+    }
+}
